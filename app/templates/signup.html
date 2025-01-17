@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="col m-5">
+            <div class="w-50 mx-auto">
+                <h2>Sign Up</h2>
+                <form action="#">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="login" name="login" maxlength="40" required style="max-width: 400px;">
+                        <div class="text-danger mt-1">Login cannot be empty.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" maxlength="40" required style="max-width: 400px;">
+                        <div class="text-danger mt-1">Email cannot be empty.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">Nickname</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" maxlength="40" required style="max-width: 400px;">
+                        <div class="text-danger mt-1">Nickname cannot be empty.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" maxlength="40" required style="max-width: 400px;">
+                        <div class="text-danger mt-1">Password cannot be empty.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repeat-password" class="form-label">Repeat Password</label>
+                        <input type="password" class="form-control" id="repeat-password" name="repeat-password" maxlength="40" required style="max-width: 400px;">
+                        <div class="text-danger mt-1">There are different passwords.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Upload Avatar</label>
+                        <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*" style="max-width: 400px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log In</a>
+                </form>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="row mt-5">
+    <div class="col m-5">
+        <h1 class="text-left my-4">New Question</h1>
+
+        <div class="text-danger mt-1">Title cannot be empty.</div>
+        <div class="input-group mb-3" style="width: 75%;">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            <input type="text" class="form-control" aria-label="Title" aria-describedby="basic-addon1">
+        </div>
+
+        <div class="text-danger mt-1">Question cannot be empty.</div>
+        <div class="input-group mb-3" style="width: 75%;">
+            <span class="input-group-text" id="basic-addon1">Text</span>
+            <textarea type="text" class="form-control" aria-label="Text" aria-describedby="basic-addon1" rows="15"></textarea>
+        </div>
+
+        <div class="text-danger mt-1">Tags cannot be empty.</div>
+        <div class="input-group mb-3" style="width: 75%;">
+            <span class="input-group-text" id="basic-addon1">Tags</span>
+            <input type="text" class="form-control" aria-label="Tags" aria-describedby="basic-addon1">
+        </div>
+
+        <button class="btn btn-outline-success" type="submit">Ask</button>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="col m-5">
+            <div class="d-flex align-items-center">
+                <a href="{% url 'index' %}" class="m-4 h3">New Questions</a>
+                <h1 class="text-left m-4">Hot Questions</h1>
+            </div>
+
+            <!-- Вставка шаблона для списка вопросов -->
+            {% include 'questions_list.html' %}
+
+            <!-- Вставка шаблона для пагинации -->
+            {% include 'paginator.html' %}
+        </div>
+{% endblock %}

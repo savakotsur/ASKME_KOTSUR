@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col m-5">
+        <div class="d-flex align-items-center">
+            <h1 class="text-left m-4">New Questions</h1>
+            <a href="{% url 'hot' %}" class="m-4 h3">Hot Questions</a>
+        </div>
+
+        {% include 'questions_list.html' %}
+
+        {% include 'paginator.html' %}
+    </div>
+{% endblock %}

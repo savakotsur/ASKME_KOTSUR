@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hot Questions</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top w-100 bg-body-tertiary border-bottom ">
+        <div class="container-fluid">
+            <a class="" href="#">
+                <img src="../static/img/logo.png" alt="AskKotsur" class="img-fluid" style="max-width: 200px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary mx-2" type="submit">ASK!</button>
+                </form>
+            </div>
+
+            <div class="d-none">
+                <a href="#" class="btn btn-outline-secondary me-2">Log In</a>
+                <a href="#" class="btn btn-outline-secondary">Sign Up</a>
+            </div>
+
+            <div class="d-flex gap-1">
+                <img src="../static/img/avatar.png" alt="Avatar" class="rounded-circle me-4 img-fluid"
+                    style="max-width: 64px;">
+                <div>
+                    <div>
+                        Sava Kotsur
+                    </div>
+                    <a href="#" class="btn btn-outline-secondary">Settings</a>
+                    <a href="#" class="btn btn-outline-secondary">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="row mt-5">
+
+        <div class="col m-5">
+            <div class="d-flex align-items-center">
+                <a href="#" class="m-4 h3">New Questions</a>
+                <h1 class="text-left m-4">Hot Questions</h1>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-left align-items-top border rounded p-3 mb-4" style="max-width: 75%;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <a href="#">
+                        <img class="rounded-circle img-fluid" src="../static/img/avatar.png" alt="Avatar"
+                            style="max-width: 64px;">
+                    </a>
+                    <div class="container mt-5">
+                        <div class="">
+                            <button class="btn btn-outline-secondary">-</button>
+                            <span class="mx-3 h3">5</span>
+                            <button class="btn btn-outline-secondary">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col m-3">
+                    <div>
+                        <a href="#" class="h1 text-decoration-none">What is the difference between var and let in Swift?</a>
+                        <div class="my-3 question-description">
+                            In Swift, `var` is used to define variables that can be changed after they are declared, while `let` defines constants that cannot be changed once set. Both are crucial for managing state in a Swift program.
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="me-2 text-decoration-none">Answers (10)</a>
+                        <div class="me-2">Tags:</div>
+                        <div class="tags">
+                            <a href="#" class="tag text-decoration-none">Swift</a>
+                            <a href="#" class="tag text-decoration-none">Programming</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-left align-items-top border rounded p-3 mb-4" style="max-width: 75%;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <a href="#">
+                        <img class="rounded-circle img-fluid" src="../static/img/avatar.png" alt="Avatar"
+                            style="max-width: 64px;">
+                    </a>
+                    <div class="container mt-5">
+                        <div class="">
+                            <button class="btn btn-outline-secondary">-</button>
+                            <span class="mx-3 h3">12</span>
+                            <button class="btn btn-outline-secondary">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col m-3">
+                    <div>
+                        <a href="#" class="h1 text-decoration-none">How to use Bootstrap Grid system effectively?</a>
+                        <div class="my-3 question-description">
+                            The Bootstrap grid system is a powerful layout tool that uses a series of containers, rows, and columns to layout and align content. This framework uses a 12-column grid system, which is responsive and adaptable to different screen sizes.
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="me-2 text-decoration-none">Answers (15)</a>
+                        <div class="me-2">Tags:</div>
+                        <div class="tags">
+                            <a href="#" class="tag text-decoration-none">Bootstrap</a>
+                            <a href="#" class="tag text-decoration-none">CSS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="pagination" style="position: fixed; bottom: 0;">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">4</a></li>
+
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                <li class="page-item"><a class="page-link" href="#">7</a></li>
+
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <aside class="right-column bg-light d-flex bord">
+            <div class="p-3 mb-4 mt-4">
+                <div>
+                    <div class="h3">
+                        Popular Tags
+                    </div>
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <a href="#" class="h5">PostgresQL</a>
+                        <a href="#" class="h5">Django</a>
+                        <a href="#" class="h5">Python</a>
+                        <a href="#" class="h5">Machine Learning</a>
+                        <a href="#" class="h5">NoCode</a>
+                        <a href="#" class="h5">Firefox</a>
+                        <a href="#" class="h5">Yandex</a>
+                        <a href="#" class="h5">Algorythms</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="h3">
+                        Best Members
+                    </div>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#">Dr. Pepper</a>
+                        <a href="#">Mr. Freeman</a>
+                        <a href="#">Kotik Koteev</a>
+                        <a href="#">Goga</a>
+                        <a href="#">Soda LUV</a>
+                        <a href="#">Jupiter</a>
+                        <a href="#">Proger_Bez_Korki</a>
+                    </div>
+        </aside>
+    </main>
+
+    <script src="../static/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col m-5">
+        <h2>{{ question.title }}</h2>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            {% for tag in question.tags %}
+                <a href="{% url 'questions_by_tag' tag.name %}" class="badge bg-primary text-white">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+        <p>{{ question.text }}</p>
+
+        <h3>Answers</h3>
+        {% for answer in answers %}
+            <div class="border p-3 mb-3">
+                <p>{{ answer.text }}</p>
+                <small>Posted by: {{ answer.user.username }} </small>
+            </div>
+        {% endfor %}
+
+        {% include 'paginator.html' %}
+    </div>
+{% endblock %}
