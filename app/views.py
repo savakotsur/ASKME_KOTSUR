@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .utils import paginate  # Импортируем вашу функцию пагинации
+from .utils import paginate 
 
 def get_questions_list():
     questions = []
@@ -8,8 +8,8 @@ def get_questions_list():
             'title': f'Title {i}',
             'id': i,
             'text': f'Text {i}',
-            'answers_count': 5,  # Примерное количество ответов
-            'tags': ['tag1', 'tag2']  # Примерные теги
+            'answers_count': 5, 
+            'tags': ['tag1', 'tag2'] 
         })
     return questions
 
