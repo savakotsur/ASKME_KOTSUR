@@ -10,7 +10,7 @@
             <div class="container mt-5">
                 <div class="">
                     <button class="btn btn-outline-secondary">-</button>
-                    <span class="mx-3 h3">0</span>
+                    <span class="mx-3 h3">{{ question.likes_count }}</span>
                     <button class="btn btn-outline-secondary">+</button>
                 </div>
             </div>
@@ -25,11 +25,11 @@
             </div>
 
             <div class="d-flex flex-wrap">
-                <a href="{% url 'question_detail' question.id %}" class="me-2 text-decoration-none">Answers ({{ question.answers_count }})</a>
+                <a href="{% url 'question_detail' question.id %}" class="me-2 text-decoration-none">Answers ({{ question.answers.count }})</a>
                 <div class="me-2">Tags:</div>
                 <div class="tags">
-                    {% for tag in question.tags %}
-                        <a href="{% url 'tag_questions' tag %}" class="tag text-decoration-none">{{ tag }}</a>
+                    {% for tag in question.tags.all %}
+                        <a href="{% url 'tag_questions' tag.name %}" class="tag text-decoration-none">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
             </div>

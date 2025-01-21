@@ -4,17 +4,17 @@
     <div class="col m-5">
         <h2>{{ question.title }}</h2>
         <div class="d-flex flex-wrap gap-2 mb-3">
-            {% for tag in question.tags %}
-                <a href="{% url 'questions_by_tag' tag.name %}" class="badge bg-primary text-white">{{ tag.name }}</a>
+            {% for tag in question.tags.all %}
+                <a href="{% url 'tag_questions' tag.name %}" class="badge bg-primary text-white">{{ tag.name }}</a>
             {% endfor %}
         </div>
         <p>{{ question.text }}</p>
 
         <h3>Answers</h3>
         {% for answer in answers %}
-            <div class="border p-3 mb-3">
+            <div class="border p-3 mb-3"  style="max-width: 75%">
                 <p>{{ answer.text }}</p>
-                <small>Posted by: {{ answer.user.username }} </small>
+                <small>Posted by: {{ answer.author.username }} </small>
             </div>
         {% endfor %}
 

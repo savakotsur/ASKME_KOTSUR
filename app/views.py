@@ -1,52 +1,32 @@
-from django.shortcuts import render
-from .utils import paginate  # Импортируем вашу функцию пагинации
+from django.shortcuts import render, get_object_or_404
+from .utils import paginate  
+from .models import Question, Tag, Answer
+from django.conf.urls import handler404
 
-def get_questions_list():
-    questions = []
-    for i in range(1, 31):  # Заглушка для 30 вопросов
-        questions.append({
-            'title': f'Title {i}',
-            'id': i,
-            'text': f'Text {i}',
-            'answers_count': 5,  # Примерное количество ответов
-            'tags': ['tag1', 'tag2']  # Примерные теги
-        })
-    return questions
+def get_paginated_questions(request, queryset, template_name, extra_context=None):
+    per_page = 10
+    page_obj = paginate(queryset, request, per_page)
+    context = {'page_obj': page_obj}
+    if extra_context:
+        context.update(extra_context)
+    return render(request, template_name, context)
 
 def index(request):
-    questions = get_questions_list()
-    per_page = 10
-
-    page_obj = paginate(questions, request, per_page)
-
-    return render(request, 'index.html', {'page_obj': page_obj})
+    questions = Question.objects.new()
+    return get_paginated_questions(request, questions, 'index.html')
 
 def hot(request):
-    questions = get_questions_list()
-    per_page = 10
-
-    page_obj = paginate(questions, request, per_page)
-
-    return render(request, 'hot.html', {'page_obj': page_obj})
+    questions = Question.objects.popular()
+    return get_paginated_questions(request, questions, 'hot.html')
 
 def tag_questions(request, tag_name):
-    questions = get_questions_list()
-    per_page = 10
-
-    page_obj = paginate(questions, request, per_page)
-
-    return render(request, 'tag.html', {'page_obj': page_obj, 'tag_name': tag_name})
+    tag = get_object_or_404(Tag, name=tag_name)
+    questions = tag.questions.all()
+    return get_paginated_questions(request, questions, 'tag.html', {'tag_name': tag_name})
 
 def question_detail(request, question_id):
-    question = {
-        'title': f'Question {question_id}',
-        'id': question_id,
-        'text': f'Detailed text of question {question_id}'
-    }
-    answers = [
-        {'id': 1, 'text': 'Answer 1 to question ' + str(question_id)},
-        {'id': 2, 'text': 'Answer 2 to question ' + str(question_id)},
-    ]
+    question = Question.objects.get(id=question_id)
+    answers = Answer.objects.filter(question=question)
     return render(request, 'question.html', {'question': question, 'answers': answers})
 
 def login(request):
@@ -60,3 +40,8 @@ def ask(request):
 
 def settings(request):
     return render(request, 'settings.html')
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+handler404 = custom_404
