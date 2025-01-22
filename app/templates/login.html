@@ -1,23 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <div class="col m-5">
-            <div class="w-50 mx-auto">
-                <h2>Login</h2>
-                <form action="#">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" maxlength="40" required style="max-width: 400px;">
-                        <div class="text-danger mt-1">Email cannot be empty.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" maxlength="40" required style="max-width: 400px;">
-                        <div class="text-danger mt-1">Password cannot be empty.</div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Log In</button>
-                    <a href="{% url 'signup' %}" class="btn btn-outline-secondary">Create new account</a>
-                </form>
-            </div>
+    <div class="col m-5">
+        <div class="w-50 mx-auto">
+            <h2>Login</h2>
+            {% for error in form.password.errors %}
+                <div class="text-danger mt-1">{{ error }}</div>
+            {% endfor %}
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="username" name="username" value="{{ form.username.value|default:'' }}">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" id="password" name="password">
+                    <!-- {% for error in form.password.errors %}
+                        <div class="text-danger mt-1">{{ error }}</div>
+                    {% endfor %} -->
+                </div>
+                <button type="submit" class="btn btn-primary">Log In</button>
+                <a href="{% url 'signup' %}" class="btn btn-outline-secondary">Create new account</a>
+            </form>
         </div>
+    </div>
 {% endblock %}

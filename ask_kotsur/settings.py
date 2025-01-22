@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rh4t0i+2g%%a@4^11j#zsexstig&o)sv@-wpo+jdnd7xamse9%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'askme_db',
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'adminadmin',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {

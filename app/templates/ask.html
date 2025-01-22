@@ -5,25 +5,35 @@
     <div class="col m-5">
         <h1 class="text-left my-4">New Question</h1>
 
-        <div class="text-danger mt-1">Title cannot be empty.</div>
-        <div class="input-group mb-3" style="width: 75%;">
-            <span class="input-group-text" id="basic-addon1">Title</span>
-            <input type="text" class="form-control" aria-label="Title" aria-describedby="basic-addon1">
-        </div>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3" style="width: 75%;">
+                <label for="id_title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="id_title" name="title" value="{{ form.title.value|default:'' }}">
+                {% if form.title.errors %}
+                    <div class="text-danger mt-1">{{ form.title.errors.0 }}</div>
+                {% endif %}
+            </div>
 
-        <div class="text-danger mt-1">Question cannot be empty.</div>
-        <div class="input-group mb-3" style="width: 75%;">
-            <span class="input-group-text" id="basic-addon1">Text</span>
-            <textarea type="text" class="form-control" aria-label="Text" aria-describedby="basic-addon1" rows="15"></textarea>
-        </div>
+            <div class="mb-3" style="width: 75%;">
+                <label for="id_text" class="form-label">Text</label>
+                <textarea class="form-control" id="id_text" name="text" rows="15">{{ form.text.value|default:'' }}</textarea>
+                {% if form.text.errors %}
+                    <div class="text-danger mt-1">{{ form.text.errors.0 }}</div>
+                {% endif %}
+            </div>
 
-        <div class="text-danger mt-1">Tags cannot be empty.</div>
-        <div class="input-group mb-3" style="width: 75%;">
-            <span class="input-group-text" id="basic-addon1">Tags</span>
-            <input type="text" class="form-control" aria-label="Tags" aria-describedby="basic-addon1">
-        </div>
+            <div class="mb-3" style="width: 75%;">
+                <label for="id_tags" class="form-label">Tags (Enter tags separated by commas.)</label>
+                <input type="text" class="form-control" id="id_tags" name="tags" value="{{ form.tags.value|default:'' }}">
+                {% if form.tags.errors %}
+                    <div class="text-danger mt-1">{{ form.tags.errors.0 }}</div>
+                {% endif %}
+            </div>
 
-        <button class="btn btn-outline-success" type="submit">Ask</button>
+            <button class="btn btn-outline-success" type="submit">Ask</button>
+        </form>
     </div>
 </main>
 {% endblock %}

@@ -12,12 +12,27 @@
 
         <h3>Answers</h3>
         {% for answer in answers %}
-            <div class="border p-3 mb-3"  style="max-width: 75%">
+            <div class="border p-3 mb-3" id="answer-{{ answer.id }}" style="max-width: 75%">
                 <p>{{ answer.text }}</p>
                 <small>Posted by: {{ answer.author.username }} </small>
             </div>
         {% endfor %}
 
-        {% include 'paginator.html' %}
+        <h3>Write your answer:</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3" style="width: 75%;">
+                <label for="id_text" class="form-label">Your answer</label>
+                <textarea id="id_text" name="text" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Answer</button>
+        </form>
+
     </div>
+
+    <script>
+        window.onload = function() {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
 {% endblock %}
