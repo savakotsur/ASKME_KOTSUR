@@ -1,38 +1,111 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="col m-5">
-        <h2>{{ question.title }}</h2>
-        <div class="d-flex flex-wrap gap-2 mb-3">
-            {% for tag in question.tags.all %}
-                <a href="{% url 'tag_questions' tag.name %}" class="badge bg-primary text-white">{{ tag.name }}</a>
-            {% endfor %}
-        </div>
-        <p>{{ question.text }}</p>
-
-        <h3>Answers</h3>
-        {% for answer in answers %}
-            <div class="border p-3 mb-3" id="answer-{{ answer.id }}" style="max-width: 75%">
-                <p>{{ answer.text }}</p>
-                <small>Posted by: {{ answer.author.username }} </small>
-            </div>
+<div class="col m-5">
+    <h2>{{ question.title }}</h2>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        {% for tag in question.tags.all %}
+            <a href="{% url 'tag_questions' tag.name %}" class="badge bg-primary text-white">{{ tag.name }}</a>
         {% endfor %}
+    </div>
+    <p>{{ question.text }}</p>
 
-        <h3>Write your answer:</h3>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="mb-3" style="width: 75%;">
-                <label for="id_text" class="form-label">Your answer</label>
-                <textarea id="id_text" name="text" class="form-control" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Answer</button>
-        </form>
+    <h3>Answers</h3>
+    {% for answer in answers %}
+    <div class="border border-secondary border-1 answer-block p-3 mb-3 {% if answer.is_correct %} border-success border-3 {% endif %}" 
+    id="answer-{{ answer.id }}" 
+    style="max-width: 75%;">
+    <p>{{ answer.text }}</p>
+    <small>Posted by: {{ answer.author.username }}</small>
 
+    <div class="d-flex align-items-center">
+        <button class="btn btn-outline-secondary like-answer-button" data-answer-id="{{ answer.id }}" data-action="dislike" 
+            {% if user in answer.disliked_by.all %} disabled {% endif %}>-</button>
+        <span class="mx-3 h3 answer-likes-count" id="answer-likes-{{ answer.id }}">{{ answer.likes_count }}</span>
+        <button class="btn btn-outline-secondary like-answer-button" data-answer-id="{{ answer.id }}" data-action="like" 
+            {% if user in answer.liked_by.all %} disabled {% endif %}>+</button>
     </div>
 
-    <script>
-        window.onload = function() {
-            window.scrollTo(0, document.body.scrollHeight);
+    {% if question.author == request.user %}
+        <button class="btn btn-outline-secondary correct-answer-button" data-question-id="{{ question.id }}" 
+                data-answer-id="{{ answer.id }}" {% if answer.is_correct %} disabled {% endif %}>
+            Mark as correct
+        </button>
+    {% endif %}
+    </div>
+
+    {% endfor %}
+
+    <h3>Write your answer:</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3" style="width: 75%;">
+            <label for="id_text" class="form-label">Your answer</label>
+            <textarea id="id_text" name="text" class="form-control" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Answer</button>
+    </form>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).on('click', '.correct-answer-button', function() {
+    var question_id = $(this).data('question-id');
+    var answer_id = $(this).data('answer-id');
+    var button = $(this);
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "set_correct_answer" %}',
+        data: {
+            'answer_id': answer_id,
+            'question_id': question_id,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.message) {
+                $('.correct-answer-button').prop('disabled', false);
+                $('.answer-block').removeClass('border-success border-3').addClass('border-secondary border-1');
+                $('.correct-answer-button').removeClass('disabled');
+
+                button.prop('disabled', true);
+                $('#answer-' + answer_id)
+                    .removeClass('border-secondary border-1')
+                    .addClass('border-success border-3');
+            }
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error: " + errmsg);
         }
-    </script>
+    });
+});
+</script>
+<script>
+    $(document).on('click', '.like-answer-button', function() {
+    var answer_id = $(this).data('answer-id');
+    var action = $(this).data('action');
+    var button = $(this);
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "like_answer" %}',
+        data: {
+            'answer_id': answer_id,
+            'action': action,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.likes_count !== undefined) {
+                $('#answer-likes-' + answer_id).text(response.likes_count);
+                $('.like-answer-button[data-answer-id="' + answer_id + '"]').prop('disabled', false);
+                button.prop('disabled', true);
+            }
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error: " + errmsg);
+        }
+    });
+});
+</script>
 {% endblock %}

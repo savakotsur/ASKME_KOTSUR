@@ -40,7 +40,8 @@ class CustomSignupForm(forms.Form):
             password=cleaned_data['password']
         )
 
-        profile = Profile.objects.create(user=user, avatar=cleaned_data['avatar'])
+        avatar = cleaned_data['avatar'] if cleaned_data.get('avatar') else 'avatars/default.png'
+        profile = Profile.objects.create(user=user, avatar=avatar)
         return user
 
 class ProfileEditForm(forms.ModelForm):

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from app.models import Profile, Question, Answer, Tag, QuestionLike, AnswerLike
+from app.models import Profile, Question, Answer, Tag
 import random
 from faker import Faker
 
@@ -54,27 +54,28 @@ class Command(BaseCommand):
                 text=fake.text()
             )
 
-        # Создание лайков на вопросы
-        self.stdout.write(self.style.SUCCESS(f'Создаём {ratio * 200} лайков на вопросы'))
+        # Создание лайков и дизлайков на вопросы
+        self.stdout.write(self.style.SUCCESS(f'Создаём {ratio * 200} лайков и дизлайков на вопросы'))
         for _ in range(ratio * 200):
             user = random.choice(User.objects.all())
             question = random.choice(questions)
-            QuestionLike.objects.get_or_create(
-                user=user,
-                question=question,
-                defaults={'is_liked': random.choice([True, False])}
-            )
+            if random.choice([True, False]):
+                question.liked_by.add(user)
+                question.likes_count += 1
+            else:
+                question.disliked_by.add(user)
+            question.save()
 
-        # Создание лайков на ответы
-        self.stdout.write(self.style.SUCCESS(f'Создаём {ratio * 200} лайков на ответы'))
-        answers = Answer.objects.all()
-        for _ in range(ratio * 200):
-            user = random.choice(User.objects.all())
-            answer = random.choice(answers)
-            AnswerLike.objects.get_or_create(
-                user=user,
-                answer=answer,
-                defaults={'is_liked': random.choice([True, False])}
-            )
+        # # Создание лайков на ответы
+        # self.stdout.write(self.style.SUCCESS(f'Создаём {ratio * 200} лайков на ответы'))
+        # answers = Answer.objects.all()
+        # for _ in range(ratio * 200):
+        #     user = random.choice(User.objects.all())
+        #     answer = random.choice(answers)
+        #     AnswerLike.objects.get_or_create(
+        #         user=user,
+        #         answer=answer,
+        #         defaults={'is_liked': random.choice([True, False])}
+        #     )
 
         self.stdout.write(self.style.SUCCESS('База данных успешно заполнена!'))

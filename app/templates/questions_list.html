@@ -4,14 +4,14 @@
     <div class="d-flex flex-wrap justify-content-left align-items-top border rounded p-3 mb-4" style="max-width: 75%;">
         <div class="d-flex flex-column justify-content-center align-items-center">
             <a href="#">
-                <img class="rounded-circle img-fluid" src="{% static 'img/avatar.png' %}" alt="Avatar"
+                <img class="rounded-circle img-fluid" src="{{ question.author.profile.avatar.url }}" alt="Avatar"
                      style="max-width: 64px;">
             </a>
             <div class="container mt-5">
                 <div class="">
-                    <button class="btn btn-outline-secondary">-</button>
-                    <span class="mx-3 h3">{{ question.likes_count }}</span>
-                    <button class="btn btn-outline-secondary">+</button>
+                    <button class="btn btn-outline-secondary like-button" data-question-id="{{ question.id }}" data-action="dislike" {% if user in question.disliked_by.all %} disabled {% endif %}>-</button>
+                    <span class="mx-3 h3 likes-count" data-question-id="{{ question.id }}">{{ question.likes_count }}</span>
+                    <button class="btn btn-outline-secondary like-button" data-question-id="{{ question.id }}" data-action="like" {% if user in question.liked_by.all %} disabled {% endif %}>+</button>
                 </div>
             </div>
         </div>
@@ -36,5 +36,35 @@
         </div>
     </div>
 {% empty %}
-    <p>No questions available at the moment.</p>
+    <p>No questions available at the moment.</p>   
 {% endfor %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$('.like-button').click(function() {
+    var question_id = $(this).data('question-id');
+    var action = $(this).data('action');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "like_question" %}',
+        data: {
+            'question_id': question_id,
+            'action': action,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.likes_count !== undefined) {
+                $('.likes-count[data-question-id="' + question_id + '"]').text(response.likes_count);
+                
+                $('.like-button[data-question-id="' + question_id + '"][data-action="' + action + '"]').attr('disabled', 'disabled');
+                
+                var oppositeAction = action === 'like' ? 'dislike' : 'like';
+                $('.like-button[data-question-id="' + question_id + '"][data-action="' + oppositeAction + '"]').removeAttr('disabled');
+            }
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error: " + errmsg);
+        }
+    });
+});
+</script>

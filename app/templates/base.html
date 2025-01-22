@@ -33,8 +33,7 @@
             </div>
             {% if user.is_authenticated %}
                 <div class="d-flex gap-1">
-                    <img src="{% static 'img/avatar.png' %}" alt="Avatar" class="rounded-circle me-4 img-fluid"
-                        style="max-width: 64px;">
+                    <img src="{{ user.profile.avatar.url }}" alt="MyAvatar" class="rounded-circle me-4 img-fluid" style="max-width: 64px; max-height: 64px;">
                     <div>
                         <div>
                             {{ user.username }}

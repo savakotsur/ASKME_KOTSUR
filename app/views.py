@@ -11,6 +11,7 @@ from .forms import CustomLoginForm, CustomSignupForm, ProfileEditForm, QuestionF
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def login_view(request):
@@ -120,5 +121,87 @@ def ask(request):
 
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def like_question(request):
+    if request.method == 'POST':
+        question_id = request.POST.get('question_id')
+        action = request.POST.get('action')
+        question = Question.objects.get(id=question_id)
+        user = request.user
+
+        if action == 'like':
+            if user in question.liked_by.all():
+                return JsonResponse({'error': 'Already liked'}, status=400)
+            if user in question.disliked_by.all():
+                question.disliked_by.remove(user)
+                question.likes_count += 2
+                question.liked_by.add(user)
+            else:
+                question.likes_count += 1
+                question.liked_by.add(user)
+
+        elif action == 'dislike':
+            if user in question.disliked_by.all():
+                return JsonResponse({'error': 'Already disliked'}, status=400)
+            if user in question.liked_by.all():
+                question.liked_by.remove(user)
+                question.likes_count -= 2
+                question.disliked_by.add(user)
+            else:
+                question.likes_count -= 1
+                question.disliked_by.add(user)
+
+        question.save() 
+        return JsonResponse({'likes_count': question.likes_count})
+    
+@login_required
+def like_answer(request):
+    if request.method == 'POST':
+        answer_id = request.POST.get('answer_id')
+        action = request.POST.get('action')
+        answer = Answer.objects.get(id=answer_id)
+        user = request.user
+
+        if action == 'like':
+            if user in answer.liked_by.all():
+                return JsonResponse({'error': 'Already liked'}, status=400)
+            if user in answer.disliked_by.all():
+                answer.disliked_by.remove(user)
+                answer.likes_count += 2
+            else:
+                answer.likes_count += 1
+            answer.liked_by.add(user)
+
+        elif action == 'dislike':
+            if user in answer.disliked_by.all():
+                return JsonResponse({'error': 'Already disliked'}, status=400)
+            if user in answer.liked_by.all():
+                answer.liked_by.remove(user)
+                answer.likes_count -= 2
+            else:
+                answer.likes_count -= 1
+            answer.disliked_by.add(user)
+
+        answer.save()
+        return JsonResponse({'likes_count': answer.likes_count})
+
+@login_required
+def set_correct_answer(request):
+    if request.method == 'POST':
+        question_id = request.POST.get('question_id')
+        answer_id = request.POST.get('answer_id')
+        question = Question.objects.get(id=question_id)
+        
+        if question.author != request.user:
+            return JsonResponse({'error': 'Only the author can select the correct answer.'}, status=400)
+
+        Answer.objects.filter(question=question).update(is_correct=False)
+        
+        answer = Answer.objects.get(id=answer_id)
+        answer.is_correct = True
+        answer.save()
+
+        return JsonResponse({'message': 'Correct answer updated.'})
 
 handler404 = custom_404

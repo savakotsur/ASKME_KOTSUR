@@ -43,7 +43,7 @@
         <div class="mb-3">
             <label for="avatar" class="form-label">Avatar</label>
             <input type="file" class="form-control {% if form.avatar.errors %}is-invalid{% endif %}" id="avatar" name="avatar" accept="image/*" style="width: 100%;">
-            <img class="rounded-circle mt-3" src="{% static 'img/avatar.png' %}" alt="Current Avatar" style="max-width: 64px;">
+            <img class="rounded-circle mt-3" src="{{ user.profile.avatar.url }}" alt="Current Avatar" style="max-width: 64px;">
             {% for error in form.avatar.errors %}
                 <div class="text-danger mt-1">{{ error }}</div>
             {% endfor %}
